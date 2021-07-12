@@ -1,3 +1,4 @@
+import re
 from django.http.response import HttpResponse
 from django.shortcuts import render
 from django.contrib.auth.models import User
@@ -9,7 +10,7 @@ from rest_framework.parsers import JSONParser
 from rest_framework.decorators import authentication_classes, permission_classes
 from .serializers import RegistrationSerializer, LoginSerializer
 from rest_framework.authentication import BasicAuthentication
-
+import requests
 
 # Create your views here.
 def homepage(request):
@@ -32,10 +33,14 @@ class LoginView(generics.CreateAPIView):
         password = request.data["password"]
         user = authenticate(request, username=username, password=password)
         if user is not None:
+            url = "http://localhost:8000/api-token-auth/"
+            data = {"username": username, "password": password}
+            token = requests.post(url, data=data)
             login(request, user)
-            return Response(
-                {"user": username, "password": password}, status=status.HTTP_200_OK
-            )
+            token = token.text.split('\\')
+            return Response({
+                "token": token[0][10:-2]
+                }, status=status.HTTP_200_OK)
         else:
             return Response(
                 {"message": "User/password doesn't match"},
