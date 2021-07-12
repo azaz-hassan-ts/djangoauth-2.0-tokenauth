@@ -26,7 +26,8 @@ urlpatterns = [
     url(
         "^$", schema_view.with_ui("swagger", cache_timeout=0), name="schema-swagger-ui"
     ),
-    url("^login/$", views.LoginView.as_view(), name="login"),
+    # url("^login/$", views.LoginView.as_view(), name="login"),
     url("^register/$", views.RegisterView.as_view(), name="register"),
     url("^logout/$", views.LogoutView.as_view(), name="logout"),
+    path("login/", obtain_auth_token),
 ]
