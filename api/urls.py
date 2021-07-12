@@ -5,7 +5,6 @@ from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from . import views
-from rest_framework.authtoken.views import obtain_auth_token
 
 app_name = "api"
 
@@ -29,5 +28,5 @@ urlpatterns = [
     ),
     url("^login/$", views.LoginView.as_view(), name="login"),
     url("^register/$", views.RegisterView.as_view(), name="register"),
-    path("api-token-auth/", obtain_auth_token),
+    url("^logout/$", views.LogoutView.as_view(), name="logout"),
 ]
