@@ -2,6 +2,7 @@ import re
 from django.http.response import HttpResponse
 from django.shortcuts import render
 from django.contrib.auth.models import User
+from django.views import generic
 from rest_framework import generics, serializers, status, viewsets, views
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.contrib.auth import authenticate, login, logout
@@ -81,3 +82,20 @@ class LogoutView(generics.CreateAPIView):
         return Response({
             'message': "You are successfully logged out"
         }, status=status.HTTP_200_OK)
+
+class ProfileView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request, format=None):
+        username = str(request.user)
+        user = User.objects.get(username=username)
+        if user is not None:
+            return Response({
+                "username": user.username,
+                "email": user.email,
+                "message": "You won't get results if your token is expired"
+            })
+        return Response({
+            'message': "Your token is expired. Please log in again"
+        }, status=status.HTTP_401_UNAUTHORIZED)
