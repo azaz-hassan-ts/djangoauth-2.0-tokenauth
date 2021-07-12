@@ -11,6 +11,7 @@ from .serializers import RegistrationSerializer, LoginSerializer
 from rest_framework.authentication import BasicAuthentication
 
 
+
 # Create your views here.
 def homepage(request):
     return HttpResponse("Hello World")
@@ -20,21 +21,28 @@ class LoginView(generics.CreateAPIView):
     queryset = User.objects.all()
     permission_classes = (AllowAny,)
     serializer_class = LoginSerializer
+    parser_classes = [JSONParser]
 
     def post(self, request):
-        username = request.POST.get("username")
-        password = request.POST.get("password")
+        if request.data == {}:
+            return Response({
+                'message': "Send request Body"
+            }, status=status.HTTP_204_NO_CONTENT)
+        
+        username = request.data["username"]
+        password = request.data["password"]
         # user = User.objects.get(username=username)
         user = authenticate(request, username=username, password=password)
         login(request, user)
         if user is not None:
             return Response({
-                'user': user.username
+                'user': username,
+                'password': password
                 }, status=status.HTTP_200_OK)
-        else:
-            return Response({
-                'message': "User/password doesn't match"
-            }, status=status.HTTP_400_BAD_REQUEST)
+        # else:
+        #     return Response({
+        #         'message': "User/password doesn't match"
+        #     }, status=status.HTTP_400_BAD_REQUEST)
 
 
 class RegisterView(generics.CreateAPIView):
