@@ -75,7 +75,6 @@ class RegisterView(generics.CreateAPIView):
 class LogoutView(generics.CreateAPIView):
     queryset = User.objects.all()
     premission_classes = (AllowAny, )
-    serializer_class = LogoutSerializer
 
     def get(self, request, format=None):
         request.user.auth_token.delete()
@@ -97,5 +96,5 @@ class ProfileView(generics.CreateAPIView):
                 "message": "You won't get results if your token is expired"
             })
         return Response({
-            'message': "Your token is expired. Please log in again"
+            'message': "Your account is disabled. Please log in again"
         }, status=status.HTTP_401_UNAUTHORIZED)
