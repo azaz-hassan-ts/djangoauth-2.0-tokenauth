@@ -30,7 +30,7 @@ urlpatterns = [
     ),
     # url("^login/$", views.LoginView.as_view(), name="login"),
     url("^register/$", views.RegisterView.as_view(), name="register"),
-    url("^logout/$", views.LogoutView.as_view(), name="logout"),
+    url("^logout/$", views.LogoutView, name="logout"),
     path("login/", obtain_auth_token),
     path("profile/", views.ProfileView.as_view(), name="profile" )
 ]

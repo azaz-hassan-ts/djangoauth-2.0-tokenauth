@@ -11,7 +11,7 @@ from rest_framework.permissions import AllowAny
 from django.contrib.auth import authenticate, login
 from rest_framework.response import Response
 from rest_framework.parsers import JSONParser
-from rest_framework.decorators import authentication_classes, permission_classes
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from .serializers import RegistrationSerializer, LoginSerializer, LogoutSerializer
 from rest_framework.authentication import BasicAuthentication
 import requests
@@ -71,16 +71,14 @@ class RegisterView(generics.CreateAPIView):
             )
         return Response(register_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
-class LogoutView(generics.CreateAPIView):
-    queryset = User.objects.all()
-    premission_classes = (IsAuthenticated, )
-
-    def get(self, request, format=None):
-        request.user.auth_token.delete()
-        return Response({
+@api_view(['GET'])
+@permission_classes((IsAuthenticated, ))
+def LogoutView(request):
+    request.user.auth_token.delete()
+    return Response({
             'message': "You are successfully logged out"
         }, status=status.HTTP_200_OK)
+                
 
 class ProfileView(generics.CreateAPIView):
     queryset = User.objects.all()
