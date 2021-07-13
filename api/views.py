@@ -74,7 +74,7 @@ class RegisterView(generics.CreateAPIView):
 
 class LogoutView(generics.CreateAPIView):
     queryset = User.objects.all()
-    premission_classes = (AllowAny, )
+    premission_classes = (IsAuthenticated, )
 
     def get(self, request, format=None):
         request.user.auth_token.delete()
@@ -85,6 +85,7 @@ class LogoutView(generics.CreateAPIView):
 class ProfileView(generics.CreateAPIView):
     queryset = User.objects.all()
     permission_classes = (IsAuthenticated,)
+    serializer_class = LogoutSerializer
 
     def post(self, request, format=None):
         username = str(request.user)
