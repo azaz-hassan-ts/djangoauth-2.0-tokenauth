@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from django.urls.conf import path
+from django.urls.conf import path, re_path
 from . import views
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
@@ -32,5 +32,7 @@ urlpatterns = [
     url("^register/$", views.RegisterView.as_view(), name="register"),
     url("^logout/$", views.LogoutView, name="logout"),
     path("login/", obtain_auth_token),
-    path("profile/", views.ProfileView.as_view(), name="profile" )
+    path("profile/", views.ProfileView.as_view(), name="profile" ),
+    re_path('v1/version', views.version1, name="version1"),
+    re_path('v2/version', views.version2, name="version2"),
 ]

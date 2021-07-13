@@ -96,3 +96,18 @@ class ProfileView(generics.CreateAPIView):
         return Response({
             'message': "Your account is disabled. Please log in again"
         }, status=status.HTTP_401_UNAUTHORIZED)
+
+
+@api_view(['GET'])
+@permission_classes((AllowAny, ))
+def version1(request):
+    return Response({
+        'version': request.version
+    }, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+@permission_classes((AllowAny, ))
+def version2(request):
+    return Response({
+        'version': request.version
+    }, status=status.HTTP_200_OK)
