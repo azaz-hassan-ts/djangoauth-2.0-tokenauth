@@ -45,9 +45,9 @@ or
 
 ## Swagger Documentation Hits
 
-### Got to https://resttokenauth.herokuapp.com/ to see swagger spec document
-#### Note: Basic Auth is integrated in Swagger Spec document
 
+### Got to https://resttokenauth.herokuapp.com/ to see swagger spec document
+#### Note: Token Auth is integrated in Swagger Spec document
 #### API HIT CYCLE:
 
 ```
