@@ -1,6 +1,6 @@
 # djangoauth-2.0-tokenauth
 
-## Deployed at https://basicauthdjango.herokuapp.com/
+## Deployed at https://resttokenauth.herokuapp.com/
 
 # Python: Getting Started
 
